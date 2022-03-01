@@ -6,10 +6,10 @@ class App extends Component{
   render(){
     return (
       <div>
-        <Palette />
+        <Palette {...seedColors[1]} />
       </div>
     )
   }
 }
 
-export default App
+export default App;
