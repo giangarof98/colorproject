@@ -25,14 +25,14 @@ class Navbar extends Component{
     this.setState({open:false})
   }
   render(){
-    const {level, changeLevel, handleChange} = this.props;
+    const {level, changeLevel, handleChange, showingAllColors} = this.props;
     const {format} = this.state;
     return (
       <header className="Navbar">
         <div className="logo">
             <Link to="/">reactColorPicker</Link>
         </div>
-        <div className="slider-continer">
+        {showingAllColors && <div className="slider-continer">
         <span>Level: {level}</span>
           <div className="slider">
             <Slider 
@@ -42,7 +42,7 @@ class Navbar extends Component{
                 step={100}
                 onAfterChange={changeLevel} />
             </div>
-        </div>
+        </div> }
         <div className="select-container">
           <Select value={format} onChange={this.handleFormatChange}> 
             <MenuItem value="hex">Hex - </MenuItem>
