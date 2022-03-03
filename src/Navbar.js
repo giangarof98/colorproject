@@ -8,7 +8,8 @@ import IconButton from '@mui/material/IconButton';
 
 import Slider from'rc-slider';
 import 'rc-slider/assets/index.css';
-import './Navbar.css'
+import {withStyles} from "@mui/styles";
+import styles from "./styles/NavbarStyle";
 
 class Navbar extends Component{
   constructor(props){
@@ -25,16 +26,16 @@ class Navbar extends Component{
     this.setState({open:false})
   }
   render(){
-    const {level, changeLevel, handleChange, showingAllColors} = this.props;
+    const {level, changeLevel, handleChange, showingAllColors, classes} = this.props;
     const {format} = this.state;
     return (
-      <header className="Navbar">
-        <div className="logo">
+      <header className={classes.Navbar}>
+        <div className={classes.logo}>
             <Link to="/">reactColorPicker</Link>
         </div>
-        {showingAllColors && <div className="slider-continer">
+        {showingAllColors && <div>
         <span>Level: {level}</span>
-          <div className="slider">
+          <div className={classes.slider}>
             <Slider 
                 defaultValue={level} 
                 min={100} 
@@ -43,7 +44,7 @@ class Navbar extends Component{
                 onAfterChange={changeLevel} />
             </div>
         </div> }
-        <div className="select-container">
+        <div className={classes.selectContainer}>
           <Select value={format} onChange={this.handleFormatChange}> 
             <MenuItem value="hex">Hex - </MenuItem>
             <MenuItem value="rgb">RGB - </MenuItem>
@@ -71,4 +72,4 @@ class Navbar extends Component{
   }
 }
 
-export default Navbar;
+export default withStyles(styles)(Navbar);
