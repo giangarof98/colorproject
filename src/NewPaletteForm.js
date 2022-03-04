@@ -24,6 +24,7 @@ import { colors } from "@mui/material";
 import { ChromePicker } from "react-color";
 import DraggableColorBox from "./DraggableColorBox";
 import { ValidatorForm, TextValidator} from 'react-material-ui-form-validator';
+import { color } from "@mui/system";
 
 const drawerWidth = 360;
 
@@ -147,6 +148,13 @@ export default class NewPaletteForm extends Component {
     this.props.history.push('/')
   }
 
+  removeColor(colorName){
+    this.setState({
+      colors: this.state.colors.filter(color => color.name !== colorName)
+    })
+
+  }
+
   render() {
     const {classes} = this.props;
     const {open} = this.state;
@@ -231,7 +239,11 @@ export default class NewPaletteForm extends Component {
         <main>
           <div>
             {this.state.colors.map(color => (
-              <DraggableColorBox color={color.color} name={color.name} />
+              <DraggableColorBox
+                key={color.name}
+                color={color.color} 
+                name={color.name} 
+                handleClick={() => this.removeColor(color.name)}/>
             ))}
           </div>
         </main>
