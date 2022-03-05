@@ -1,7 +1,7 @@
 import React from "react";
 import { withStyles } from "@mui/styles";
 import DeleteIcon from '@mui/icons-material/Delete';
-import {SortableElement} from 'react-sortable-hoc';
+import {SortableContainer, SortableElement} from 'react-sortable-hoc';
 
 const styles = {
     root: {
@@ -37,7 +37,7 @@ const styles = {
     
 }
 
-const DraggableColorBox = SortableElement (props => {
+const DraggableColorBox = SortableElement ((props) => {
     const {classes, handleClick, name, color} = props;
 
     return (
