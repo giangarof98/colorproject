@@ -35,14 +35,24 @@ const AppBar = styled(MuiAppBar, {
 class PaletteFormNav extends Component {
     constructor(props){
         super(props);
-        this.state = {newPaletteName: ""}
-        this.handleChange = this.handleChange.bind(this)
+        this.state = {newPaletteName: "", formShowing: false}
+        this.handleChange = this.handleChange.bind(this);
+        this.showForm = this.showForm.bind(this);
+        this.hideForm = this.hideForm.bind(this)
+
+
     }
     handleChange(e){
         this.setState({
           [e.target.name]: e.target.value
         })
-      }
+    }
+    showForm(){
+        this.setState({formShowing: true})
+    }
+    hideForm(){
+        this.setState({formShowing: false});
+    }
     render(){
         const {classes, open, palettes, handleSubmit} = this.props;
         const {newPaletteName} = this.state;
@@ -64,10 +74,6 @@ class PaletteFormNav extends Component {
                             Create your Palette
                         </Typography>
                         <div >
-                            <PaletteMetaForm 
-                                palettes={palettes} 
-                                handleSubmit={handleSubmit}
-                            />
                             <Link to="/">
                                 <Button
                                     variant="contained"
@@ -75,9 +81,20 @@ class PaletteFormNav extends Component {
                                     Go Back
                                 </Button>
                             </Link>
+                            <Button 
+                                variant="contained" 
+                                color="primary" 
+                                onClick={this.showForm}>
+                                    Save
+                            </Button>
                         </div>
                         </Toolbar>
                     </AppBar>
+                    {this.state.formShowing && <PaletteMetaForm 
+                        palettes={palettes} 
+                        handleSubmit={handleSubmit}
+                        hideForm={this.hideForm}
+                    /> }
             </div>
         )
     }
