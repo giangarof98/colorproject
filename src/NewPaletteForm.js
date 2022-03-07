@@ -196,7 +196,7 @@ export default class NewPaletteForm extends Component {
         <main>
           <div>
             <DraggableColorList 
-              colors={this.colors}
+              colors={this.state.colors}
               removeColor={this.removeColor}
               axis="xy"
               onSortEnd={this.onSortEnd}/>
