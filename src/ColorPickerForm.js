@@ -1,33 +1,11 @@
 import React, {Component} from "react";
 
-import PaletteFormNav from "./PaletteFormNav";
-import { Link } from "react-router-dom";
-import { styled, useTheme } from '@mui/material/styles';
-import { withStyles } from "@material-ui/core/styles";
-import Box from '@mui/material/Box';
-import Drawer from '@mui/material/Drawer';
-import CssBaseline from '@mui/material/CssBaseline';
-import MuiAppBar from '@mui/material/AppBar';
-import Toolbar from '@mui/material/Toolbar';
-import List from '@mui/material/List';
-import Typography from '@mui/material/Typography';
-import Divider from '@mui/material/Divider';
-import IconButton from '@mui/material/IconButton';
-import MenuIcon from '@mui/icons-material/Menu';
-import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
-import ChevronRightIcon from '@mui/icons-material/ChevronRight';
-import ListItem from '@mui/material/ListItem';
-import ListItemIcon from '@mui/material/ListItemIcon';
-import ListItemText from '@mui/material/ListItemText';
-import InboxIcon from '@mui/icons-material/MoveToInbox';
-import MailIcon from '@mui/icons-material/Mail';
+
 import Button from "@mui/material/Button";
 import { ChromePicker } from "react-color";
-import DraggableColorBox from "./DraggableColorBox";
 import { ValidatorForm, TextValidator} from 'react-material-ui-form-validator';
-import { color } from "@mui/system";
-import DraggableColorList from "./DraggableColorList";
-import {arrayMoveMutable} from 'array-move';
+
+
 
 class ColorPickerForm extends Component {
     constructor(props){
@@ -84,8 +62,7 @@ class ColorPickerForm extends Component {
 
             <ChromePicker 
                 color={this.state.currentColor} 
-                onChange={this.updateColor} 
-            />
+                onChange={this.updateColor} />
 
                 <ValidatorForm onSubmit={this.handleSubmit}>
                     <TextValidator 

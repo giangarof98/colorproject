@@ -1,36 +1,18 @@
 import React, {Component} from "react";
 import PaletteFormNav from "./PaletteFormNav";
-import { Link } from "react-router-dom";
 import { styled, useTheme } from '@mui/material/styles';
-import { withStyles } from "@material-ui/core/styles";
 import Box from '@mui/material/Box';
 import Drawer from '@mui/material/Drawer';
-import CssBaseline from '@mui/material/CssBaseline';
-import MuiAppBar from '@mui/material/AppBar';
-import Toolbar from '@mui/material/Toolbar';
-import List from '@mui/material/List';
 import Typography from '@mui/material/Typography';
 import Divider from '@mui/material/Divider';
 import IconButton from '@mui/material/IconButton';
-import MenuIcon from '@mui/icons-material/Menu';
-import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
 import ChevronRightIcon from '@mui/icons-material/ChevronRight';
-import ListItem from '@mui/material/ListItem';
-import ListItemIcon from '@mui/material/ListItemIcon';
-import ListItemText from '@mui/material/ListItemText';
-import InboxIcon from '@mui/icons-material/MoveToInbox';
-import MailIcon from '@mui/icons-material/Mail';
 import Button from "@mui/material/Button";
-import { ChromePicker } from "react-color";
-import DraggableColorBox from "./DraggableColorBox";
-import { ValidatorForm, TextValidator} from 'react-material-ui-form-validator';
-import { color } from "@mui/system";
 import ColorPickerForm from "./ColorPickerForm";
 import DraggableColorList from "./DraggableColorList";
 import {arrayMoveMutable} from 'array-move';
 
-
-const drawerWidth = 360;
+const drawerWidth = 280;
 
 const Main = styled('main', { shouldForwardProp: (prop) => prop !== 'open' })(
   ({ theme, open }) => ({
@@ -51,35 +33,16 @@ const Main = styled('main', { shouldForwardProp: (prop) => prop !== 'open' })(
   }),
 );
 
-// const AppBar = styled(MuiAppBar, {
-//   shouldForwardProp: (prop) => prop !== 'open',
-// })(({ theme, open }) => ({
-//   transition: theme.transitions.create(['margin', 'width'], {
-//     easing: theme.transitions.easing.sharp,
-//     duration: theme.transitions.duration.leavingScreen,
-//   }),
-//   ...(open && {
-//     width: `calc(100% - ${drawerWidth}px)`,
-//     marginLeft: `${drawerWidth}px`,
-//     transition: theme.transitions.create(['margin', 'width'], {
-//       easing: theme.transitions.easing.easeOut,
-//       duration: theme.transitions.duration.enteringScreen,
-//     }),
-//   }),
-// }));
-
 const DrawerHeader = styled('div')(({ theme }) => ({
   display: 'flex',
   alignItems: 'center',
   padding: theme.spacing(0, 1),
   // necessary for content to be below app bar
   ...theme.mixins.toolbar,
-  justifyContent: 'flex-end',
+  justifyContent: 'flex-start',
 }));
 
-export default class NewPaletteForm extends Component {
-  // const theme = useTheme();
-  // const [open, setOpen] = React.useState(false);
+class NewPaletteForm extends Component {
   static defaultProps = {
     maxColors: 20
   }
@@ -175,13 +138,13 @@ export default class NewPaletteForm extends Component {
         }}
         variant="persistent"
         anchor="left"
-        open={open}
-      >
+        open={open}>
+
         <DrawerHeader>
           <IconButton onClick={this.handleDrawerClose}>
             <ChevronRightIcon />
           </IconButton>
-          <Typography variant="h4">Design your palette </Typography>
+          <Typography variant="h5" l={{ flexGrow: 1 }}>Design your palette </Typography>          
         </DrawerHeader>
         <div>
           <Button 
@@ -197,13 +160,13 @@ export default class NewPaletteForm extends Component {
             disabled={paletteIsFull}> 
               Random Color 
           </Button>
-        </div>
         <Divider />
         <ColorPickerForm 
           paletteIsFull={paletteIsFull}
           addNewColor={this.addNewColor}
           colors={colors}/>
         <Divider />
+          </div>
       </Drawer>
       <Main open={open}>
         <main>
@@ -220,3 +183,5 @@ export default class NewPaletteForm extends Component {
   );
 }
 }
+
+export default NewPaletteForm
