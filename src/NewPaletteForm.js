@@ -74,7 +74,7 @@ class NewPaletteForm extends Component {
 
   handleChange(e){
     this.setState({
-      colors: [...this.state.colors, newColor], 
+      colors: [...this.state.colors, this.newColor], 
       newColorName: ''
     })
   }
