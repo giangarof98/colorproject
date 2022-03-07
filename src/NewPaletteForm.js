@@ -1,29 +1,18 @@
 import React, {Component} from "react";
-
-import { Link } from "react-router-dom";
 import PaletteFormNav from "./PaletteFormNav";
 import { styled, useTheme } from '@mui/material/styles';
-import { withStyles } from "@material-ui/core/styles";
 import Box from '@mui/material/Box';
 import Drawer from '@mui/material/Drawer';
-import CssBaseline from '@mui/material/CssBaseline';
-import MuiAppBar from '@mui/material/AppBar';
-import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
 import Divider from '@mui/material/Divider';
 import IconButton from '@mui/material/IconButton';
-import MenuIcon from '@mui/icons-material/Menu';
 import ChevronRightIcon from '@mui/icons-material/ChevronRight';
 import Button from "@mui/material/Button";
-import { ChromePicker } from "react-color";
-import DraggableColorBox from "./DraggableColorBox";
-import { ValidatorForm, TextValidator} from 'react-material-ui-form-validator';
-import DraggableColorList from "./DraggableColorList";
 import ColorPickerForm from "./ColorPickerForm";
+import DraggableColorList from "./DraggableColorList";
 import {arrayMoveMutable} from 'array-move';
 
-
-const drawerWidth = 360;
+const drawerWidth = 280;
 
 const Main = styled('main', { shouldForwardProp: (prop) => prop !== 'open' })(
   ({ theme, open }) => ({
@@ -44,50 +33,30 @@ const Main = styled('main', { shouldForwardProp: (prop) => prop !== 'open' })(
   }),
 );
 
-const AppBar = styled(MuiAppBar, {
-  shouldForwardProp: (prop) => prop !== 'open',
-})(({ theme, open }) => ({
-  transition: theme.transitions.create(['margin', 'width'], {
-    easing: theme.transitions.easing.sharp,
-    duration: theme.transitions.duration.leavingScreen,
-  }),
-  ...(open && {
-    width: `calc(100% - ${drawerWidth}px)`,
-    marginLeft: `${drawerWidth}px`,
-    transition: theme.transitions.create(['margin', 'width'], {
-      easing: theme.transitions.easing.easeOut,
-      duration: theme.transitions.duration.enteringScreen,
-    }),
-  }),
-}));
-
 const DrawerHeader = styled('div')(({ theme }) => ({
   display: 'flex',
   alignItems: 'center',
   padding: theme.spacing(0, 1),
   // necessary for content to be below app bar
   ...theme.mixins.toolbar,
-  justifyContent: 'flex-end',
+  justifyContent: 'flex-start',
 }));
 
-export default class NewPaletteForm extends Component {
-  // const theme = useTheme();
-  // const [open, setOpen] = React.useState(false);
-
+class NewPaletteForm extends Component {
   static defaultProps = {
     maxColors: 20
   }
+  
   constructor(props){
     super(props)
     this.state = {
       open: true,
-      currentColor: 'red',
       colors: this.props.palettes[0].colors,
     }
     this.addNewColor = this.addNewColor.bind(this)
     this.handleSubmit = this.handleSubmit.bind(this)
     this.removeColor = this.removeColor.bind(this)
-    this.clearColor = this.clearColor.bind(this)
+    this.clearColors = this.clearColors.bind(this)
     this.addRandomColor = this.addRandomColor.bind(this)
   }
 
@@ -100,16 +69,26 @@ export default class NewPaletteForm extends Component {
   };
 
   addNewColor(newColor){
+    this.setState({colors: [...this.state.colors, newColor], newColorName: ''})
+  }
+
+  handleChange(e){
     this.setState({
       colors: [...this.state.colors, newColor], 
       newColorName: ''
     })
   }
 
-  clearColor(){
-    this.setState({
-      colors: []
-    })
+  clearColors(){
+    this.setState({colors: []})
+  }
+
+  addRandomColor(){
+    const allColors =  this.props.palettes.map(p => p.colors).flat();
+    var rand = Math.floor(Math.random() * allColors.length);
+    const randomColor = allColors[rand];
+    this.setState({colors: [...this.state.colors, randomColor]})
+    console.log(allColors)
   }
 
   handleSubmit(newPaletteName){
@@ -151,7 +130,7 @@ export default class NewPaletteForm extends Component {
       <PaletteFormNav 
         open={open} 
         classes={classes} 
-        palettes={palettes}
+        palettes={palettes} 
         handleSubmit={this.handleSubmit}
         handleDrawerOpen={this.handleDrawerOpen}/>
       <Drawer
@@ -165,32 +144,35 @@ export default class NewPaletteForm extends Component {
         }}
         variant="persistent"
         anchor="left"
-        open={open} >
+        open={open}>
+
         <DrawerHeader>
           <IconButton onClick={this.handleDrawerClose}>
             <ChevronRightIcon />
           </IconButton>
-          <Typography variant="h4">Design your palette </Typography>
+          <Typography variant="h5" l={{ flexGrow: 1 }}>Design your palette </Typography>          
         </DrawerHeader>
         <div>
           <Button 
             variant="contained" 
-            color="secondary" 
-            onClick={this.clearColor}> 
+            color="secondary"
+            onClick={this.clearColors}> 
               Clear 
           </Button>
           <Button 
             variant="contained" 
-            color="primary" 
-            onClick={this.addRandomColor} 
+            color="primary"
+            onClick={this.addRandomColor}
             disabled={paletteIsFull}> 
               Random Color 
           </Button>
-        </div>
+        <Divider />
         <ColorPickerForm 
           paletteIsFull={paletteIsFull}
           addNewColor={this.addNewColor}
           colors={colors}/>
+        <Divider />
+          </div>
       </Drawer>
       <Main open={open}>
         <main>
@@ -207,3 +189,5 @@ export default class NewPaletteForm extends Component {
   );
 }
 }
+
+export default NewPaletteForm
