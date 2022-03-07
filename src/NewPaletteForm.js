@@ -112,7 +112,6 @@ export default class NewPaletteForm extends Component {
     })
   }
 
-  
   handleSubmit(newPaletteName){
     const newPalette = {
       paletteName: newPaletteName,
