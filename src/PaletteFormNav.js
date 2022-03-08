@@ -9,7 +9,6 @@ import Typography from '@mui/material/Typography';
 import IconButton from '@mui/material/IconButton';
 import MenuIcon from '@mui/icons-material/Menu';
 import Button from "@mui/material/Button";
-import { ValidatorForm, TextValidator} from 'react-material-ui-form-validator';
 import PaletteMetaForm from "./PaletteMetaForm";
 
 const drawerWidth = 280;
