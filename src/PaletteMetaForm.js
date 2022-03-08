@@ -15,10 +15,13 @@ class PaletteMetaForm extends Component {
     constructor(props){
         super(props);
         this.state = {
-            open: true,
+            stage: "form",
             newPaletteName: ""
         }
         this.handleChange = this.handleChange.bind(this)
+        this.showEmojiPicker = this.showEmojiPicker.bind(this)
+        this.savePalette = this.savePalette.bind(this)
+
     }
 
     componentDidMount(){
@@ -33,6 +36,19 @@ class PaletteMetaForm extends Component {
         })
     }
 
+    showEmojiPicker(){
+        this.setState({stage: 'emoji'})
+    }
+
+    savePalette(emoji){
+        const newPalette = {
+            paletteName: this.state.newPaletteName, 
+            emoji: emoji.native
+        }
+        this.props.handleSubmit(newPalette);
+        this.setState({stage: ''})
+    }
+
     handleClickOpen = () => {
         this.setState({open:true});
     };
@@ -42,23 +58,25 @@ class PaletteMetaForm extends Component {
     };
 
     render(){
-        const {newPaletteName} = this.state;
+        const {newPaletteName, stage} = this.state;
         const {hideForm} = this.props
         return (
         <div>
+            <Dialog open={stage === 'emoji'} onClose={hideForm}>
+                <DialogTitle id="form-dialog-title">Palette Name</DialogTitle>
+                <Picker title='Pick an Emoji' onSelect={this.savePalette} />
+            </Dialog>
             <Dialog
-                open={this.state.open}
-                onClose={this.handleClose}
+                open={stage === 'form'}
                 aria-labelledby="form-dialog-title"
                 onClose={hideForm}
             >
-            <DialogTitle id="form-dialog-title">Palette Name</DialogTitle>
-            <ValidatorForm onSubmit={() => this.props.handleSubmit(newPaletteName)}>
-            <DialogContent>
+            <ValidatorForm onSubmit={this.showEmojiPicker}>
+                <DialogContent>
                 <DialogContentText>
                     Please enter a name
                 </DialogContentText>
-                <Picker />
+
                 <TextValidator 
                     label="Palette name"
                     value={this.state.newPaletteName}
@@ -68,20 +86,17 @@ class PaletteMetaForm extends Component {
                     errorMessages={['Enter Palette Name', 'Name already taken']}
                     fullWidth
                     margin='normal'/>
+                    </DialogContent>
+                    <DialogActions>
+                    <Button onClick={hideForm} color="primary">
+                        Cancel
+                    </Button>
                     <Button 
                         variant="contained" 
                         color="primary" 
                         type="submit">
                         Save Palette
                     </Button>
-                    </DialogContent>
-                    <DialogActions>
-                        <Button onClick={this.props.hideForm} color="primary">
-                        Cancel
-                        </Button>
-                        <Button onClick={this.handleClose} color="primary">
-                            Subscribe
-                        </Button>
                     </DialogActions>
             </ValidatorForm>
             </Dialog>

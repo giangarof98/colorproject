@@ -54,6 +54,7 @@ class NewPaletteForm extends Component {
       colors: this.props.palettes[0].colors,
     }
     this.addNewColor = this.addNewColor.bind(this)
+    this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this)
     this.removeColor = this.removeColor.bind(this)
     this.clearColors = this.clearColors.bind(this)
@@ -69,13 +70,16 @@ class NewPaletteForm extends Component {
   };
 
   addNewColor(newColor){
-    this.setState({colors: [...this.state.colors, newColor], newColorName: ''})
+    this.setState({
+      colors: [...this.state.colors, newColor],
+      newColorName: ''})
   }
 
   handleChange(e){
     this.setState({
-      colors: [...this.state.colors, this.newColor], 
-      newColorName: ''
+      [e.target.name]: e.target.value
+      // colors: [...this.state.colors, this.newColor], 
+      // newColorName: ''
     })
   }
 
@@ -91,12 +95,10 @@ class NewPaletteForm extends Component {
     console.log(allColors)
   }
 
-  handleSubmit(newPaletteName){
-    const newPalette = {
-      paletteName: newPaletteName,
-      id: newPaletteName.toLowerCase().replace(/ /g, "-"),
-      colors: this.state.colors
-    }
+  handleSubmit(newPalette){
+    newPalette.id = newPalette.paletteName.toLowerCase().replace(/ /g, "-");
+    newPalette.colors = this.state.colors;
+    
     this.props.savePalette(newPalette);
     this.props.history.push('/')
   }
